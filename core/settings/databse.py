@@ -1,6 +1,5 @@
 from pathlib import Path
-
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
+from .settings import BASE_DIR
 
 DATABASES = {
     'default': {
