@@ -1,4 +1,2 @@
-kivy_venv
-firebaseauth.py
-firebasedata.py
+.env
 __pycache__
