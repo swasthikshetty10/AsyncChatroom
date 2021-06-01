@@ -9,27 +9,121 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 
     <title>Chat!</title>
+
+      <style>
+        @import url(//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css);
+
+.detailBox {
+    width:320px;
+    border:1px solid #bbb;
+    margin:50px;
+}
+.titleBox {
+    background-color:#fdfdfd;
+    padding:10px;
+}
+.titleBox label{
+  color:#444;
+  margin:0;
+  display:inline-block;
+}
+
+.commentBox {
+    padding:10px;
+    border-top:1px dotted #bbb;
+}
+.commentBox .form-group:first-child, .actionBox .form-group:first-child {
+    width:80%;
+}
+.commentBox .form-group:nth-child(2), .actionBox .form-group:nth-child(2) {
+    width:18%;
+}
+.actionBox .form-group * {
+    width:100%;
+}
+.taskDescription {
+    margin-top:10px 0;
+}
+.commentList {
+    padding:0;
+    list-style:none;
+    overflow:auto;
+}
+.commentList li {
+    margin:0;
+    margin-top:10px;
+}
+.commentList li > div {
+    display:table-cell;
+}
+.commenterImage {
+    width:30px;
+    margin-right:5px;
+    height:100%;
+    float:left;
+}
+.commenterImage img {
+    width:100%;
+    border-radius:50%;
+}
+.commentText p {
+    margin:0;
+}
+.sub-text {
+    color:#aaa;
+    font-family:verdana;
+    font-size:11px;
+}
+.actionBox {
+    border-top:1px dotted #bbb;
+    padding:10px;
+}
+        .gradient-custom {
+        background: #6a11cb;
+        background: -webkit-linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
+        background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1))
+        }
+        
+    </style>
+
+
   </head>
   
   
-  <body class = "bg-dark">
-  <div class = "container">
-  <div class = "row d-flex justify-content-center ">
-    <form id="msgform" style="max-width: 30rem;">
-      <div class = "form-group">
+  <body class = " gradient-custom">
+    <section class="">
+      <div class="container py-5 h-100" style = "max-width: 55rem;">
+        
+                  <div class = "d-flex flex-column justify-content-center ">
+            
+                  <form id = "msgform">
+                   
+                          <div class = "bg-white ">
+                            <div class = "w-full border border-info">
+                            <h1 id = "heading" class = "text-center">  </h1>
+                          </div>
+                          <div class = "overflow-auto px-5 border border-dark"  style  = "height: 70vh; ">
 
-        <label  for = "exampleFormControlTextarea1" id = "heading" class="h2 text-warning pt-5"> </label>
-        <textarea class = "form-control" id  = "chat-text" cols = "70" rows = "22" disabled></textarea><br>
-      </div>
-      <div class="form-group d-flex">
-        <input class = "form-control" id = "input" type = "text" size = "80"> 
-        <button class = "btn bg-warning  " id = "submit" type = "submit"> Send </button>
-      </div>
+                            <div id = "chat-text"class="commentList" >
+                              
+                          </div>
+
+                          </div>
+                          
+                          <div class="form-group d-flex">
+                    <input class = "form-control m-2 h-10" id = "input" size = "80"> 
+                    <button class = "btn bg-success  m-2 p-2 " id = "submit" type = "submit"> Send </button>
+                  </div>
+                  </div>                         
+                </form>
+                </div>
+               
+              
     
-    </div>
-  </div>
- 
-  </div>
+             
+      </div>
+    </section>
+
   
 
     <!-- Optional JavaScript; choose one of the two! -->
@@ -49,13 +143,21 @@
       chatSocket.onmessage = (e) => {
         const data = JSON.parse(e.data);
         console.log(data);
-        document.querySelector('#chat-text').value += `${data.username} : ${data.message}\n` 
+        document.querySelector('#chat-text').innerHTML += `<li>
+                                  <div class="commenterImage">
+                                    <img src="https://picsum.photos/300/300"></img>
+                                  </div>
+                                  <div class="commentText">
+                                      <p class=""> ${data.message} </p><span class="date sub-text">${data.username}</span>
+                  
+                                  </div>
+                              </li>` 
       }
       var form = document.getElementById("msgform");
       form.onsubmit = (event) => {
         event.preventDefault();
-        console.log(event.target[1].value)
-        const messageDom = event.target[1]
+        console.log(event.target[0].value)
+        const messageDom = event.target[0]
           const msg = messageDom.value;
           chatSocket.send(JSON.stringify({
             message : msg,
