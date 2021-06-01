@@ -12,40 +12,56 @@
   </head>
   
   
-  <body>
-  <textarea id = "chat-text" cols = "80" rows = "30"></textarea><br>
-  <input id = "input" type = "text" size = "80"> </br>
-  <input class = "btn bg-info" id = "submit" type = "button" value = "send">
-  <div id = "data"> 
+  <body class = "bg-dark">
+  <div class = "container">
+  <div class = "row d-flex justify-content-center ">
+    <form id="msgform" style="max-width: 30rem;">
+      <div class = "form-group">
+
+        <label  for = "exampleFormControlTextarea1" id = "heading" class="h2 text-warning pt-5"> </label>
+        <textarea class = "form-control" id  = "chat-text" cols = "70" rows = "22" disabled></textarea><br>
+      </div>
+      <div class="form-group d-flex">
+        <input class = "form-control" id = "input" type = "text" size = "80"> 
+        <button class = "btn bg-warning  " id = "submit" type = "submit"> Send </button>
+      </div>
+    
+    </div>
   </div>
-    {{ room_name|json_script:"room-name" }}
+ 
+  </div>
+  
 
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
+    {{ room_name|json_script:"room_name" }}
+    {{ username |json_script:"username" }}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
       <script>
-      const roomName = JSON.parse(document.getElementById('room-name').textContent);
+      const roomName = JSON.parse(document.getElementById('room_name').textContent);
+      const username = JSON.parse(document.getElementById('username').textContent);
+      document.querySelector('#heading').innerHTML = `${roomName} ChatRoom`
       const chatSocket = new WebSocket(
           `ws://${window.location.host}/ws/chat/${roomName}/`
       );
-      chatSocket.onmessage = (e) => {
-          const data = JSON.parse(e.data)
-          console.log(data)
-          document.querySelector('#data').innerHTML = (data.tester)
-      }
-      document.querySelector("#submit").onclick = (e) => {
-          const messageDom = document.querySelector('#input');
-          const msg = messageDom.value;
-          chatSocket.send(JSON.stringify({
-            message : msg
-          }))
-          messageDom.value = ''
-      }
+   
       chatSocket.onmessage = (e) => {
         const data = JSON.parse(e.data);
         console.log(data);
-        
+        document.querySelector('#chat-text').value += `${data.username} : ${data.message}\n` 
+      }
+      var form = document.getElementById("msgform");
+      form.onsubmit = (event) => {
+        event.preventDefault();
+        console.log(event.target[1].value)
+        const messageDom = event.target[1]
+          const msg = messageDom.value;
+          chatSocket.send(JSON.stringify({
+            message : msg,
+            username : username
+          }))
+          messageDom.value = '';
       }
       
     </script>
