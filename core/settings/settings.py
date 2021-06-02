@@ -103,7 +103,16 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+SECURE_HSTS_SECONDS = 0
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_STYLE_SRC = ("'self'",)
+CSP_SCRIPT_SRC = ("'self'",)
+CSP_IMG_SRC = ("'self'",)
+CSP_FONT_SRC = ("'self'",)
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -127,8 +136,21 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# #  use this in localserver 
+# CHANNEL_LAYERS = {
+#     "default" : {
+#         "BACKEND" : "channels.layers.InMemoryChannelLayer"
+#     }
+# }
+
+# # for heroku 
+import os
 CHANNEL_LAYERS = {
-    "default" : {
-        "BACKEND" : "channels.layers.InMemoryChannelLayer"
-    }
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [os.environ.get("REDIS_URL" , "redis://localhost6379")],
+        },
+    },
 }
