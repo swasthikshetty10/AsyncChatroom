@@ -96,11 +96,11 @@
         
                   <div class = "d-flex flex-column justify-content-center ">
             
-                  <form id = "msgform">
+                  <form  id = "msgform">
                    
-                          <div class = "bg-white ">
-                            <div class = "w-full border border-info">
-                            <h1 id = "heading" class = "text-center">  </h1>
+                          <div class = "bg-dark text-white " style="border-radius: 1rem;">
+                            <div class = "w-full pt-2 border-bottom border-info">
+                            <p style = "text-overflow: ellipsis;" id = "heading" class="h2 fw-bold mb-2 text-uppercase text-center">  </p>
                           </div>
                           <div class = "overflow-auto px-5 border border-dark"  style  = "height: 70vh; ">
 
@@ -111,8 +111,8 @@
                           </div>
                           
                           <div class="form-group d-flex">
-                    <input class = "form-control m-2 h-10" id = "input" size = "80"> 
-                    <button class = "btn bg-success  m-2 p-2 " id = "submit" type = "submit"> Send </button>
+                    <input class = "form-control m-2 h-10" id = "input" size = "80" required> 
+                    <button class = "btn btn-outline-light border  m-2 p-2 " id = "submit" type = "submit"> Send </button>
                   </div>
                   </div>                         
                 </form>
@@ -145,7 +145,7 @@
         console.log(data);
         document.querySelector('#chat-text').innerHTML += `<li>
                                   <div class="commenterImage">
-                                    <img src="https://picsum.photos/300/300"></img>
+                                    <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ficons.iconarchive.com%2Ficons%2Ficons8%2Fios7%2F512%2FUsers-User-Male-2-icon.png&f=1&nofb=1"></img>
                                   </div>
                                   <div class="commentText">
                                       <p class=""> ${data.message} </p><span class="date sub-text">${data.username}</span>
@@ -165,7 +165,7 @@
           }))
           messageDom.value = '';
       }
-      
+     
     </script>
     <!-- Option 2: Separate Popper and Bootstrap JS -->
     <!--
